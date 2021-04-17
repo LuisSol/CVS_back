@@ -1,0 +1,34 @@
+name: 'DigitalOcean Deploy'
+
+on:
+  push:
+    branches: [main]
+
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout files
+          uses: actions/checkout@v2
+        - name: Build and push Docker images
+          uses: docker/build-push-action@v1
+          with: 
+            username: ${{ secrets.DOCKER_USR }}
+            password: ${{ secrets.DOCKER_PASS }}
+            repository: luissol/csvback
+            tag_with_ref: true
+            tag_with_sha: true
+    deploy:
+      needs: build
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout files
+            uses: actions/checkout@v2
+          - name: Get tag name
+            uses: olegtarasov/get-tag@v2
+          - name: Install doctl
+            uses: digitalocean/action-doctl@v2
+            with:
+              token: ${{ secrets.DIGITALOCEAN_TOKEN }}
+          - name: Provision droplet and deploy container
+            run: doctl compute droplet create "$GIT_TAG_NAME" --image docker-18-04 --size s-1vcpu-1gb --region sfo3 --user-data-file deploy.sh --wait
