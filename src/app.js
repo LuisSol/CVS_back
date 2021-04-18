@@ -1,5 +1,8 @@
 const express = require('express')
 const cors = require('cors')
+const multer = require('multer')
+
+let upload = multer({ dest: 'public/' })
 
 const app = express()
 
@@ -13,6 +16,6 @@ app.get('/healt', (_, res) => {
   res.send('helthy... :)')
 })
 
-app.post('/upload-cvs', uploadCVSCtrl)
+app.post('/upload-cvs', upload.single('file'), uploadCVSCtrl)
 
 module.exports = app
