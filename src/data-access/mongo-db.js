@@ -4,7 +4,6 @@ module.exports = ({ databases: { models } }) => {
       const providerToStore = provider.trim().toUpperCase()
 
       const resProvider = await models.Provider.findOne({ name: providerToStore })
-      console.log(resProvider)
 
       if (resProvider) {
         for await (vehicle of parsedCVS) {
@@ -42,7 +41,18 @@ module.exports = ({ databases: { models } }) => {
     }
   }
 
+  async function getProviders() {
+    try {
+      const providers = await models.Provider.find({})
+      return providers
+    } catch (error) {
+      console.log(error)
+      throw new Error(error)
+    }
+  }
+
   return Object.freeze({
     saveCVS,
+    getProviders,
   })
 }
