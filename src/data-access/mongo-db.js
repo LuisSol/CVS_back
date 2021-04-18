@@ -11,6 +11,7 @@ module.exports = ({ databases: { models } }) => {
             ...vehicle,
             'Create Date': vehicle['Create Date'] ? new Date(vehicle['Create Date']) : new Date(),
             'Update Date': vehicle['Update Date'] ? new Date(vehicle['Update Date']) : new Date(),
+            provider: resProvider._id,
           })
           await newVehicle.save()
           console.log(`New vechicle saved ${newVehicle._id}`)
@@ -25,6 +26,7 @@ module.exports = ({ databases: { models } }) => {
             ...vehicle,
             'Create Date': vehicle['Create Date'] ? new Date(vehicle['Create Date']) : new Date(),
             'Update Date': vehicle['Update Date'] ? new Date(vehicle['Update Date']) : new Date(),
+            provider: newProvider._id,
           })
           await newVehicle.save()
           console.log(`New vechicle saved ${newVehicle._id}`)
@@ -51,8 +53,20 @@ module.exports = ({ databases: { models } }) => {
     }
   }
 
+  async function getProviderVehicles(id) {
+    try {
+      console.log(id)
+      const vehicles = await models.Vehicle.find({ provider: id })
+      return vehicles
+    } catch (error) {
+      console.log(error)
+      throw new Error(error)
+    }
+  }
+
   return Object.freeze({
     saveCVS,
     getProviders,
+    getProviderVehicles,
   })
 }
