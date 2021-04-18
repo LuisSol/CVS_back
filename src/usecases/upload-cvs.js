@@ -1,5 +1,5 @@
-module.exports = ({ dataAccess: { mongoDb } }) =>
+module.exports = ({ dataAccess: { mongoDb }, entities: { parseFile } }) =>
   async function uploadCVSUC(file, provider) {
-    // TODO connect make the entity to parse file to a Js object to store in the db, coneect data access
-    return 'Ok'
+    const parsedFile = await parseFile(file)
+    return mongoDb.saveCVS(parsedFile, provider)
   }

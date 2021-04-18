@@ -5,7 +5,7 @@ describe('Upload CVS Controller', () => {
     const result = 'Ok'
     const uploadCVSUC = jest.fn(() => result)
 
-    const req = { body: {} }
+    const req = { file: { path: 'public/newFile' }, body: { provider: 'Juan' } }
     const sendBuilder = { send: jest.fn() }
     const res = { status: jest.fn(() => sendBuilder) }
 
@@ -23,7 +23,7 @@ describe('Upload CVS Controller', () => {
       throw new Error('something went wrong')
     })
 
-    const req = { body: {} }
+    const req = { file: { path: 'public/newFile' }, body: { provider: 'Juan' } }
     const sendBuilder = { send: jest.fn() }
     const res = { status: jest.fn(() => sendBuilder) }
 

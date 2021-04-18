@@ -1,8 +1,8 @@
 module.exports = ({ useCases: { uploadCVSUC } }) =>
-  async function uploadCvsFile(req, res) {
+  async function uploadCvsFile({ file, body: { provider } }, res) {
     try {
-      // TODO parse req to obtain file and provider
-      uploadCVSUC()
+      const { path: filePath } = file
+      await uploadCVSUC(filePath, provider)
       return res.status(200).send('Ok')
     } catch (error) {
       console.log(error)
