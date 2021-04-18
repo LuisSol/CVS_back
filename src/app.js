@@ -6,7 +6,7 @@ let upload = multer({ dest: 'public/' })
 
 const app = express()
 
-const { uploadCVSCtrl, getProvidersCtrl } = require('./controllers')
+const { uploadCVSCtrl, getProvidersCtrl, getProviderVehiclesCtrl } = require('./controllers')
 
 app.use(cors())
 app.use(express.json())
@@ -18,5 +18,6 @@ app.get('/healt', (_, res) => {
 
 app.post('/upload-cvs', upload.single('file'), uploadCVSCtrl)
 app.get('/providers', getProvidersCtrl)
+app.get('/provider/:id', getProviderVehiclesCtrl)
 
 module.exports = app
