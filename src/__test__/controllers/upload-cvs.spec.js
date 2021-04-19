@@ -13,12 +13,12 @@ describe('Upload CVS Controller', () => {
 
     await uploadCvsCtrl(req, res)
 
+    expect(uploadCVSUC).toHaveBeenCalledWith(req.file.path, req.body.provider)
     expect(res.status).toHaveBeenCalledWith(200)
     expect(sendBuilder.send).toHaveBeenCalledWith('Ok')
   })
 
   it('should return an error status code', async () => {
-    const result = 'Ok'
     const uploadCVSUC = jest.fn(() => {
       throw new Error('something went wrong')
     })
@@ -31,6 +31,7 @@ describe('Upload CVS Controller', () => {
 
     await uploadCvsCtrl(req, res)
 
+    expect(uploadCVSUC).toHaveBeenCalledWith(req.file.path, req.body.provider)
     expect(res.status).toHaveBeenCalledWith(500)
     expect(sendBuilder.send).toHaveBeenCalledWith('something went wrong')
   })

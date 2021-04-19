@@ -55,7 +55,6 @@ module.exports = ({ databases: { models } }) => {
 
   async function getProviderVehicles(id) {
     try {
-      console.log(id)
       const vehicles = await models.Vehicle.find({ provider: id })
       return vehicles
     } catch (error) {
